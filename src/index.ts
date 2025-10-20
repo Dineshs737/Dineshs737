@@ -570,11 +570,11 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 \`\`\`typescript
 const skills = {
-  languages: ['JavaScript', 'TypeScript', 'Python'],
-  frontend: ['React', 'Next.js', 'HTML/CSS', 'Tailwind'],
-  backend: ['Node.js', 'Express', 'FastAPI'],
+  languages: ['JavaScript', 'TypeScript', 'Python','Java'],
+  frontend: ['React', 'HTML/CSS', 'Tailwind'],
+  backend: ['Node.js', 'Express', 'SpringBoot'],
   databases: ['MySQL', 'PostgreSQL', 'MongoDB'],
-  tools: ['Git', 'Docker', 'AWS', 'VS Code'],
+  tools: ['Git', 'Docker', 'Neovim', 'VS Code'],
   learning: ['Kubernetes', 'GraphQL', 'Rust']
 };
 \`\`\`
