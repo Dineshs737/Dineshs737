@@ -1,0 +1,154 @@
+name: Update GitHub Profile (Fixed)
+
+on:
+  schedule:
+    # Run every 3 hours at :05 past the hour
+    - cron: "5 */3 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-profile:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Log execution time
+        run: |
+          echo "⏰ Workflow started at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Check initial state
+        run: |
+          echo "📁 Files before generation:"
+          ls -la
+          echo ""
+          if [ -f "README.md" ]; then
+            echo "README.md exists ($(wc -c < README.md) bytes)"
+          else
+            echo "README.md does not exist"
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Build TypeScript
+        run: |
+          npm run build
+          ls -la dist/
+
+      - name: Generate profile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+        run: |
+          echo "🚀 Generating profile..."
+          npm run generate
+          echo "✅ Generation complete"
+
+      - name: Verify generated files
+        run: |
+          echo ""
+          echo "📋 Checking generated files:"
+
+          if [ -f "profile.svg" ]; then
+            echo "✅ profile.svg exists ($(wc -c < profile.svg) bytes)"
+          else
+            echo "❌ profile.svg missing!"
+            exit 1
+          fi
+
+          if [ -f "README.md" ]; then
+            echo "✅ README.md exists ($(wc -c < README.md) bytes)"
+            echo ""
+            echo "First 10 lines of README.md:"
+            head -n 10 README.md
+          else
+            echo "❌ README.md missing!"
+            exit 1
+          fi
+
+      - name: Check git status
+        run: |
+          echo ""
+          echo "📝 Git status:"
+          git status
+          echo ""
+          echo "📊 Git diff:"
+          git diff --stat
+          echo ""
+          git diff profile.svg README.md || echo "No diff or files don't exist in repo yet"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add files explicitly
+        run: |
+          echo "➕ Adding files to git..."
+          git add -f profile.svg README.md
+          git status
+
+      - name: Commit changes (force if needed)
+        id: commit
+        run: |
+          echo "💾 Committing changes..."
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "⚠️  No staged changes detected"
+            echo "changed=false" >> $GITHUB_OUTPUT
+
+            # Try to force add anyway
+            git add -f profile.svg README.md
+
+            if git diff --staged --quiet; then
+              echo "Still no changes - files might be identical"
+            else
+              git commit -m "🤖 Auto-update profile stats [$(date -u '+%H:%M UTC')]"
+              echo "changed=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            git commit -m "🤖 Auto-update profile stats [$(date -u '+%H:%M UTC')]"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✅ Changes committed"
+          fi
+
+      - name: Push changes
+        run: |
+          echo "🚀 Pushing to repository..."
+          git push origin main || git push origin master
+          echo "✅ Push complete"
+
+      - name: Final verification
+        if: always()
+        run: |
+          echo ""
+          echo "🎯 Final Status:"
+          echo "================"
+
+          if [ "${{ steps.commit.outputs.changed }}" == "true" ]; then
+            echo "✅ Changes committed and pushed"
+          else
+            echo "ℹ️  No changes (files unchanged)"
+          fi
+
+          echo ""
+          echo "Latest commit:"
+          git log -1 --oneline
