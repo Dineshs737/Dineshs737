@@ -182,7 +182,7 @@
       <g transform="translate(0, 60)">
         <circle cx="15" cy="15" r="8" fill="none" stroke="#8957e5" stroke-width="2"/>
         <path d="M12 8 L12 22 M18 8 L18 22" stroke="#8957e5" stroke-width="2"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">133</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">134</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">pull requests merged</text>
       </g>
 
@@ -190,7 +190,7 @@
       <g transform="translate(0, 120)">
         <circle cx="15" cy="15" r="8" fill="none" stroke="#f85149" stroke-width="2"/>
         <circle cx="15" cy="15" r="2.5" fill="#f85149"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">41</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">43</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">issues opened</text>
       </g>
 
@@ -204,14 +204,14 @@
       <!-- Contributions -->
       <g transform="translate(0, 240)">
         <rect x="8" y="8" width="14" height="14" rx="2" fill="#39d353"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">3 days</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">4 days</text>
         <text x="140" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">current streak</text>
       </g>
 
       <!-- Code Frequency -->
       <g transform="translate(0, 300)">
         <path d="M8 20 L12 15 L16 18 L20 12 L24 16" stroke="#58a6ff" stroke-width="2" fill="none"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">11.8k</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">11.2k</text>
         <text x="130" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">lines of code</text>
       </g>
     </g>
