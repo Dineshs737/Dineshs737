@@ -532,7 +532,7 @@ export default class GitHubProfileGenerator {
   </circle>
 
   <!-- Glow effect -->
-  <circle cx="600" cy="485" r="100" fill="url(#glow)">
+  <circle cx="900" cy="600" r="100" fill="url(#glow)">
     <animate attributeName="r" values="100;120;100" dur="3s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values="0.3;0.5;0.3" dur="3s" repeatCount="indefinite"/>
   </circle>
