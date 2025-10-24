@@ -1,3 +1,4 @@
+import 'tsconfig-paths/register';
 import GitHubProfileGenerator from "@classes/GitHubProfileGenerator.class";
 
 
