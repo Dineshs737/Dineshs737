@@ -524,10 +524,10 @@ export default class GitHubProfileGenerator {
   <circle cx="1150" cy="50" r="6" fill="#58a6ff" opacity="0.8">
     <animate attributeName="r" values="6;8;6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="50" cy="550" r="6" fill="#58a6ff" opacity="0.8">
+  <circle cx="50" cy="650" r="6" fill="#58a6ff" opacity="0.8">
     <animate attributeName="r" values="6;8;6" dur="2s" begin="1s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="1150" cy="550" r="6" fill="#58a6ff" opacity="0.8">
+  <circle cx="1150" cy="650" r="6" fill="#58a6ff" opacity="0.8">
     <animate attributeName="r" values="6;8;6" dur="2s" begin="1.5s" repeatCount="indefinite"/>
   </circle>
 
