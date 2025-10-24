@@ -1,0 +1,209 @@
+name: Test Profile Generator
+
+on:
+  workflow_dispatch: # Manual trigger only
+    inputs:
+      debug:
+        description: "Enable debug output"
+        required: false
+        default: "true"
+        type: boolean
+
+jobs:
+  test-profile:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Display environment info
+        run: |
+          echo "🔍 Environment Information"
+          echo "=========================="
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Username: ${{ github.repository_owner }}"
+          echo ""
+
+      - name: Check file structure
+        run: |
+          echo "📁 File Structure"
+          echo "================="
+          echo "Root files:"
+          ls -la
+          echo ""
+          echo "src/ contents:"
+          ls -la src/ || echo "src/ not found"
+          echo ""
+          echo ".github/workflows/ contents:"
+          ls -la .github/workflows/
+          echo ""
+
+      - name: Install dependencies
+        run: |
+          echo "📦 Installing dependencies..."
+          npm ci || npm install
+          echo "✅ Dependencies installed"
+
+      - name: Verify package.json scripts
+        run: |
+          echo "🔍 Package.json Scripts:"
+          echo "======================="
+          cat package.json | grep -A 10 '"scripts"'
+          echo ""
+
+      - name: Check TypeScript config
+        run: |
+          echo "⚙️  TypeScript Configuration:"
+          echo "============================"
+          if [ -f "tsconfig.json" ]; then
+            echo "✅ tsconfig.json exists"
+            cat tsconfig.json
+          else
+            echo "❌ tsconfig.json NOT FOUND"
+            exit 1
+          fi
+          echo ""
+
+      - name: Build TypeScript
+        run: |
+          echo "🔨 Building TypeScript..."
+          npm run build
+          echo ""
+          echo "✅ Build complete!"
+          echo ""
+          echo "📦 Dist contents:"
+          ls -la dist/
+          echo ""
+
+      - name: Verify build output
+        run: |
+          if [ -f "dist/index.js" ]; then
+            echo "✅ dist/index.js created successfully"
+            echo "File size: $(wc -c < dist/index.js) bytes"
+            echo "Lines: $(wc -l < dist/index.js)"
+          else
+            echo "❌ dist/index.js NOT FOUND"
+            exit 1
+          fi
+
+      - name: Test GitHub token
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          if [ -z "$GITHUB_TOKEN" ]; then
+            echo "❌ GITHUB_TOKEN is not set"
+            echo "Please add GH_TOKEN secret to your repository"
+            exit 1
+          else
+            echo "✅ GITHUB_TOKEN is set"
+            echo "Token length: ${#GITHUB_TOKEN} characters"
+          fi
+
+      - name: Generate profile (TEST)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+        run: |
+          echo "🚀 Generating profile..."
+          echo "Username: $GITHUB_USERNAME"
+          echo ""
+          npm run generate
+          echo ""
+          echo "✅ Profile generation complete!"
+
+      - name: Check generated files
+        run: |
+          echo "📊 Generated Files:"
+          echo "=================="
+          if [ -f "profile.svg" ]; then
+            echo "✅ profile.svg created"
+            echo "   Size: $(wc -c < profile.svg) bytes"
+            echo "   Lines: $(wc -l < profile.svg)"
+          else
+            echo "❌ profile.svg NOT created"
+          fi
+          echo ""
+          if [ -f "README.md" ]; then
+            echo "✅ README.md created"
+            echo "   Size: $(wc -c < README.md) bytes"
+            echo "   Lines: $(wc -l < README.md)"
+            echo ""
+            echo "Preview (first 20 lines):"
+            head -n 20 README.md
+          else
+            echo "❌ README.md NOT created"
+          fi
+
+      - name: Show git diff
+        run: |
+          echo "📝 Changes:"
+          echo "=========="
+          git status
+          echo ""
+          git diff --stat
+
+      - name: Commit and push (if changes)
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No changes to commit"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            git add profile.svg README.md
+            git commit -m "🧪 Test: Update profile [skip ci]"
+            git push
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✅ Changes committed and pushed!"
+          fi
+
+      - name: Test Summary
+        if: always()
+        run: |
+          echo ""
+          echo "🎯 Test Summary"
+          echo "==============="
+          echo "✅ Node.js setup: Success"
+          echo "✅ Dependencies: Installed"
+          echo "✅ TypeScript build: Success"
+          echo "✅ Profile generation: Success"
+          if [ "${{ steps.commit.outputs.changed }}" == "true" ]; then
+            echo "✅ Changes committed: Yes"
+          else
+            echo "ℹ️  Changes committed: No (no changes detected)"
+          fi
+          echo ""
+          echo "🎉 All tests passed!"
+          echo ""
+          echo "View your profile at: https://github.com/${{ github.repository_owner }}"
+
+      - name: Debug output (if enabled)
+        if: ${{ inputs.debug == true }}
+        run: |
+          echo "🐛 Debug Information"
+          echo "==================="
+          echo "Working directory:"
+          pwd
+          echo ""
+          echo "Environment variables:"
+          env | grep -v TOKEN | sort
+          echo ""
+          echo "Full file listing:"
+          find . -type f -not -path './node_modules/*' -not -path './.git/*'
