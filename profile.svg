@@ -190,14 +190,14 @@
       <g transform="translate(0, 120)">
         <circle cx="15" cy="15" r="8" fill="none" stroke="#f85149" stroke-width="2"/>
         <circle cx="15" cy="15" r="2.5" fill="#f85149"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">49</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">51</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">issues opened</text>
       </g>
 
       <!-- Stars -->
       <g transform="translate(0, 180)">
         <path d="M15 5 L17 12 L24 12 L18 17 L20 24 L15 19 L10 24 L12 17 L6 12 L13 12 Z" fill="#ffd700"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">3</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">4</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">stars earned</text>
       </g>
 
@@ -211,7 +211,7 @@
       <!-- Code Frequency -->
       <g transform="translate(0, 300)">
         <path d="M8 20 L12 15 L16 18 L20 12 L24 16" stroke="#58a6ff" stroke-width="2" fill="none"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">12.2k</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">8.0k</text>
         <text x="130" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">lines of code</text>
       </g>
     </g>
