@@ -2,11 +2,11 @@
   "name": "test-auto-profile",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "generate": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "generate": "node -r tsconfig-paths/register dist/index.js",
+    "dev": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "keywords": [],
   "author": "",
