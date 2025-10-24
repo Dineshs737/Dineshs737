@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { GitHubStats } from "@interface/GitHubStats.interface";
+import { GitHubStats } from "./../interface/GitHubStats.interface";
 import * as fs from "fs";
 
 export default class GitHubProfileGenerator {
