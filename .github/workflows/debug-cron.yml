@@ -3,7 +3,7 @@ name: Debug Cron Schedule
 on:
   schedule:
     # Test every 5 minutes to verify cron works
-    - cron: "*/5 * * * *"
+    - cron: "* */5 * * *"
   workflow_dispatch:
 
 jobs:
