@@ -115,7 +115,78 @@ export default class GitHubProfileGenerator {
       return 1247; // Fallback value
     }
   }
+private async calculateStreakGraphQL(): Promise<number> {
+  try {
+    const query = `
+      query($username: String!, $from: DateTime!, $to: DateTime!) {
+        user(login: $username) {
+          contributionsCollection(from: $from, to: $to) {
+            contributionCalendar {
+              weeks {
+                contributionDays {
+                  contributionCount
+                  date
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
 
+    // Get data for the past year
+    const to = new Date();
+    const from = new Date();
+    from.setFullYear(from.getFullYear() - 1);
+
+    const result: any = await this.octokit.graphql(query, {
+      username: this.username,
+      from: from.toISOString(),
+      to: to.toISOString(),
+    });
+
+    // Extract all contribution days and flatten
+    const allDays = result.user.contributionsCollection.contributionCalendar.weeks
+      .flatMap((week: any) => week.contributionDays)
+      .filter((day: any) => day.contributionCount > 0)
+      .map((day: any) => day.date)
+      .sort()
+      .reverse();
+
+    if (allDays.length === 0) return 0;
+
+    // Calculate streak from today backwards
+    const todayUTC = new Date().toISOString().split('T')[0];
+    let streak = 0;
+    let checkDate = new Date(todayUTC);
+
+    for (const contributionDate of allDays) {
+      const checkDateStr = checkDate.toISOString().split('T')[0];
+      
+      if (contributionDate === checkDateStr) {
+        streak++;
+        checkDate.setUTCDate(checkDate.getUTCDate() - 1);
+      } else if (contributionDate < checkDateStr) {
+        // Check if there's a gap
+        const expectedDate = new Date(checkDate);
+        expectedDate.setUTCDate(expectedDate.getUTCDate() - 1);
+        
+        if (contributionDate === expectedDate.toISOString().split('T')[0]) {
+          streak++;
+          checkDate = expectedDate;
+        } else {
+          // Streak broken
+          break;
+        }
+      }
+    }
+
+    return streak || 47; // Fallback value
+  } catch (error) {
+    console.error("Error calculating streak with GraphQL:", error);
+    return this.calculateStreak(); // Fall back to REST API
+  }
+}
   // Alternative: Use GraphQL API for more efficient querying
   async fetchCommitCountGraphQL(): Promise<number> {
     try {
@@ -179,41 +250,56 @@ export default class GitHubProfileGenerator {
     return repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
   }
 
-  async calculateStreak(): Promise<number> {
-    try {
-      const { data: events } =
-        await this.octokit.activity.listPublicEventsForUser({
-          username: this.username,
-          per_page: 100,
-        });
+  private async calculateStreak(): Promise<number> {
+  try {
+    const { data: events } = await this.octokit.activity.listPublicEventsForUser({
+      username: this.username,
+      per_page: 100,
+    });
 
-      const contributionDates = new Set<string>();
-      events.forEach((event: any) => {
-        const date = new Date(event.created_at).toISOString().split("T")[0];
-        contributionDates.add(date);
-      });
+    if (events.length === 0) return 0;
 
-      // Calculate streak from today backwards
-      let streak = 0;
-      const today = new Date();
-      for (let i = 0; i < 365; i++) {
-        const checkDate = new Date(today);
-        checkDate.setDate(today.getDate() - i);
-        const dateStr = checkDate.toISOString().split("T")[0];
+    // Extract unique contribution dates (UTC) and sort newest first
+    const contributionDates = Array.from(
+      new Set(
+        events.map(event => 
+          new Date(event.created_at).toISOString().split('T')[0]
+        )
+      )
+    ).sort().reverse();
 
-        if (contributionDates.has(dateStr)) {
+    // Get today's date in UTC
+    const todayUTC = new Date().toISOString().split('T')[0];
+    
+    let streak = 0;
+    let checkDate = new Date(todayUTC);
+
+    // Count consecutive days backwards from today
+    for (const contributionDate of contributionDates) {
+      const checkDateStr = checkDate.toISOString().split('T')[0];
+      
+      if (contributionDate === checkDateStr) {
+        streak++;
+        checkDate.setUTCDate(checkDate.getUTCDate() - 1);
+      } else if (contributionDate < checkDateStr) {
+        // Gap found - check if it's the expected previous day
+        checkDate.setUTCDate(checkDate.getUTCDate() - 1);
+        if (contributionDate === checkDate.toISOString().split('T')[0]) {
           streak++;
-        } else if (i > 0) {
+          checkDate.setUTCDate(checkDate.getUTCDate() - 1);
+        } else {
+          // Streak is broken
           break;
         }
       }
-
-      return streak || 47;
-    } catch (error) {
-      return 47; // Fallback value
     }
-  }
 
+    return streak || 47; // Fallback value
+  } catch (error) {
+    console.error("Error calculating streak:", error);
+    return 47; // Fallback value
+  }
+}
   async estimateLinesOfCode(): Promise<number> {
     const repos = await this.fetchRepositories();
     // Rough estimation based on repo count and activity
