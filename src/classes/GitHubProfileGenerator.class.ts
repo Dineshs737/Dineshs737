@@ -179,56 +179,7 @@ export default class GitHubProfileGenerator {
     return repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
   }
 
-  private async calculateStreak(): Promise<number> {
-    try {
-      const { data: events } = await this.octokit.activity.listPublicEventsForUser({
-        username: this.username,
-        per_page: 100,
-      });
-
-      if (events.length === 0) return 0;
-
-      // Extract unique contribution dates (UTC) and sort newest first
-      const contributionDates = Array.from(
-        new Set(
-          events.map(event => 
-            new Date(event.created_at).toISOString().split('T')[0]
-          )
-        )
-      ).sort().reverse();
-
-      // Get today's date in UTC
-      const todayUTC = new Date().toISOString().split('T')[0];
-      
-      let streak = 0;
-      let checkDate = new Date(todayUTC);
-
-      // Count consecutive days backwards from today
-      for (const contributionDate of contributionDates) {
-        const checkDateStr = checkDate.toISOString().split('T')[0];
-        
-        if (contributionDate === checkDateStr) {
-          streak++;
-          checkDate.setUTCDate(checkDate.getUTCDate() - 1);
-        } else if (contributionDate < checkDateStr) {
-          // Gap found - check if it's the expected previous day
-          checkDate.setUTCDate(checkDate.getUTCDate() - 1);
-          if (contributionDate === checkDate.toISOString().split('T')[0]) {
-            streak++;
-            checkDate.setUTCDate(checkDate.getUTCDate() - 1);
-          } else {
-            // Streak is broken
-            break;
-          }
-        }
-      }
-
-      return streak || 47; // Fallback value
-    } catch (error) {
-      console.error("Error calculating streak:", error);
-      return 47; // Fallback value
-    }
-  }
+  
 
  private async calculateStreakGraphQL(): Promise<number> {
   try {
@@ -302,7 +253,7 @@ export default class GitHubProfileGenerator {
   }
 }
 
-  private async calculateStreak(): Promise<number> {
+private async calculateStreak(): Promise<number> {
   try {
     const { data: events } = await this.octokit.activity.listPublicEventsForUser({
       username: this.username,
@@ -312,18 +263,23 @@ export default class GitHubProfileGenerator {
     if (events.length === 0) return 0;
 
     // Extract unique contribution dates (UTC) and sort newest first
+    // Filter out events with null created_at before processing
     const contributionDates = Array.from(
       new Set(
-        events.map(event => 
-          new Date(event.created_at).toISOString().split('T')[0]
-        )
+        events
+          .filter(event => event.created_at !== null) // Filter out null values
+          .map(event => 
+            new Date(event.created_at as string).toISOString().split('T')[0]
+          )
       )
     ).sort().reverse();
+
+    if (contributionDates.length === 0) return 0;
 
     // Get today's date in UTC
     const todayUTC = new Date().toISOString().split('T')[0];
     let streak = 0;
-    let checkDate = new Date(todayUTC + 'T00:00:00Z'); // Fix: Add time component
+    let checkDate = new Date(todayUTC + 'T00:00:00Z');
 
     // Count consecutive days backwards from today
     for (const contributionDate of contributionDates) {
