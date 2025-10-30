@@ -33,7 +33,7 @@
         <tspan x="0" dy="0">📍 Srilanka, Mannar</tspan>
         <tspan x="0" dy="40">💼 Undergraduate Student</tspan>
         <tspan x="0" dy="40">🏢 @Learning</tspan>
-        <tspan x="0" dy="40">🔗 github.com/Dineshs737</tspan>
+        <tspan x="0" dy="40">🔗 </tspan>
       </text>
     </g>
 
@@ -174,7 +174,7 @@
       <!-- Commits -->
       <g>
         <circle cx="15" cy="15" r="6" fill="#238636"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">1.3k</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">1.4k</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">commits this year</text>
       </g>
 
@@ -182,7 +182,7 @@
       <g transform="translate(0, 60)">
         <circle cx="15" cy="15" r="8" fill="none" stroke="#8957e5" stroke-width="2"/>
         <path d="M12 8 L12 22 M18 8 L18 22" stroke="#8957e5" stroke-width="2"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">162</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">184</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">pull requests merged</text>
       </g>
 
@@ -190,28 +190,28 @@
       <g transform="translate(0, 120)">
         <circle cx="15" cy="15" r="8" fill="none" stroke="#f85149" stroke-width="2"/>
         <circle cx="15" cy="15" r="2.5" fill="#f85149"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">43</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">66</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">issues opened</text>
       </g>
 
       <!-- Stars -->
       <g transform="translate(0, 180)">
         <path d="M15 5 L17 12 L24 12 L18 17 L20 24 L15 19 L10 24 L12 17 L6 12 L13 12 Z" fill="#ffd700"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">3</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">5</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">stars earned</text>
       </g>
 
       <!-- Contributions -->
       <g transform="translate(0, 240)">
         <rect x="8" y="8" width="14" height="14" rx="2" fill="#39d353"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">1 days</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">7 days</text>
         <text x="140" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">current streak</text>
       </g>
 
       <!-- Code Frequency -->
       <g transform="translate(0, 300)">
         <path d="M8 20 L12 15 L16 18 L20 12 L24 16" stroke="#58a6ff" stroke-width="2" fill="none"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">10.6k</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">11.8k</text>
         <text x="130" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">lines of code</text>
       </g>
     </g>
@@ -255,15 +255,15 @@
   <circle cx="1150" cy="50" r="6" fill="#58a6ff" opacity="0.8">
     <animate attributeName="r" values="6;8;6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="50" cy="550" r="6" fill="#58a6ff" opacity="0.8">
+  <circle cx="50" cy="650" r="6" fill="#58a6ff" opacity="0.8">
     <animate attributeName="r" values="6;8;6" dur="2s" begin="1s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="1150" cy="550" r="6" fill="#58a6ff" opacity="0.8">
+  <circle cx="1150" cy="650" r="6" fill="#58a6ff" opacity="0.8">
     <animate attributeName="r" values="6;8;6" dur="2s" begin="1.5s" repeatCount="indefinite"/>
   </circle>
 
   <!-- Glow effect -->
-  <circle cx="600" cy="485" r="100" fill="url(#glow)">
+  <circle cx="900" cy="600" r="100" fill="url(#glow)">
     <animate attributeName="r" values="100;120;100" dur="3s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values="0.3;0.5;0.3" dur="3s" repeatCount="indefinite"/>
   </circle>
