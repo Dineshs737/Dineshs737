@@ -1041,10 +1041,12 @@ export default class GitHubProfileGenerator {
   generateREADME(): string {
     return `<div align="center">
 
-<!-- Dark Theme (default) -->
-![Profile Banner](./profile-dark.svg#gh-dark-mode-only)
-<!-- Light Theme -->
-![Profile Banner](./profile-light.svg#gh-light-mode-only)
+<!-- Automatically switches based on GitHub theme -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./profile-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./profile-light.svg">
+  <img alt="GitHub Profile Banner" src="./profile-dark.svg">
+</picture>
 
 </div>
 
@@ -1070,13 +1072,17 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9#gh-dark-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9">
+  <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=default&hide_border=true&bg_color=ffffff&title_color=0969da&icon_color=0969da&text_color=24292f">
+  <img alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9">
+</picture>
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=default&hide_border=true&bg_color=ffffff&title_color=0969da&icon_color=0969da&text_color=24292f#gh-light-mode-only)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9#gh-dark-mode-only)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=default&hide_border=true&bg_color=ffffff&title_color=0969da&text_color=24292f#gh-light-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9">
+  <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=default&hide_border=true&bg_color=ffffff&title_color=0969da&text_color=24292f">
+  <img alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9">
+</picture>
 
 </div>
 
@@ -1093,13 +1099,13 @@ const skills = {
 };
 \`\`\`
 
-## 🎨 Available Themes
+## 🎨 Theme Support
 
-This profile README supports both dark and light themes:
-- **Dark Theme**: Perfect for night owls 🌙 (auto-shown in dark mode)
-- **Light Theme**: Crisp and clean ☀️ (auto-shown in light mode)
+This profile automatically adapts to your GitHub theme:
+- 🌙 **Dark Mode** - Perfect for night coding sessions
+- ☀️ **Light Mode** - Clean and bright for daytime
 
-The theme switches automatically based on your GitHub appearance settings!
+Switch your GitHub appearance settings to see it change!
 
 ## 📫 Connect With Me
 
