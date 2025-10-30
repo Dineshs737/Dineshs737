@@ -1,4 +1,4 @@
-name: Update GitHub Profile (Fixed)
+name: Update GitHub Profile
 
 on:
   schedule:
@@ -32,11 +32,14 @@ jobs:
           echo "📁 Files before generation:"
           ls -la
           echo ""
-          if [ -f "README.md" ]; then
-            echo "README.md exists ($(wc -c < README.md) bytes)"
-          else
-            echo "README.md does not exist"
-          fi
+          echo "Checking existing files:"
+          for file in README.md profile.svg profile-dark.svg profile-light.svg; do
+            if [ -f "$file" ]; then
+              echo "✅ $file exists ($(wc -c < $file) bytes)"
+            else
+              echo "❌ $file does not exist"
+            fi
+          done
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -49,7 +52,9 @@ jobs:
 
       - name: Build TypeScript
         run: |
+          echo "🔨 Building TypeScript..."
           npm run build
+          echo "📦 Build artifacts:"
           ls -la dist/
 
       - name: Generate profile
@@ -57,31 +62,58 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_USERNAME: ${{ github.repository_owner }}
         run: |
-          echo "🚀 Generating profile..."
+          echo "🚀 Generating profile with both themes..."
           npm run generate
           echo "✅ Generation complete"
 
       - name: Verify generated files
         run: |
           echo ""
-          echo "📋 Checking generated files:"
-
+          echo "📋 Verifying all generated files:"
+          echo "=================================="
+          
+          # Check all three SVG files
+          MISSING_FILES=0
+          
           if [ -f "profile.svg" ]; then
             echo "✅ profile.svg exists ($(wc -c < profile.svg) bytes)"
           else
             echo "❌ profile.svg missing!"
-            exit 1
+            MISSING_FILES=$((MISSING_FILES + 1))
+          fi
+
+          if [ -f "profile-dark.svg" ]; then
+            echo "✅ profile-dark.svg exists ($(wc -c < profile-dark.svg) bytes)"
+          else
+            echo "❌ profile-dark.svg missing!"
+            MISSING_FILES=$((MISSING_FILES + 1))
+          fi
+
+          if [ -f "profile-light.svg" ]; then
+            echo "✅ profile-light.svg exists ($(wc -c < profile-light.svg) bytes)"
+          else
+            echo "❌ profile-light.svg missing!"
+            MISSING_FILES=$((MISSING_FILES + 1))
           fi
 
           if [ -f "README.md" ]; then
             echo "✅ README.md exists ($(wc -c < README.md) bytes)"
             echo ""
-            echo "First 10 lines of README.md:"
+            echo "📄 First 10 lines of README.md:"
             head -n 10 README.md
           else
             echo "❌ README.md missing!"
+            MISSING_FILES=$((MISSING_FILES + 1))
+          fi
+
+          if [ $MISSING_FILES -gt 0 ]; then
+            echo ""
+            echo "❌ $MISSING_FILES file(s) missing! Exiting..."
             exit 1
           fi
+          
+          echo ""
+          echo "✅ All files generated successfully!"
 
       - name: Check git status
         run: |
@@ -89,66 +121,80 @@ jobs:
           echo "📝 Git status:"
           git status
           echo ""
-          echo "📊 Git diff:"
+          echo "📊 Git diff summary:"
           git diff --stat
           echo ""
-          git diff profile.svg README.md || echo "No diff or files don't exist in repo yet"
+          echo "🔍 Changes in files:"
+          git diff --name-only
 
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Add files explicitly
+      - name: Add all generated files
         run: |
-          echo "➕ Adding files to git..."
-          git add -f profile.svg README.md
-          git status
+          echo "➕ Adding all generated files to git..."
+          git add -f profile.svg profile-dark.svg profile-light.svg README.md
+          echo ""
+          echo "📋 Staged files:"
+          git diff --staged --name-only
 
-      - name: Commit changes (force if needed)
+      - name: Commit changes
         id: commit
         run: |
-          echo "💾 Committing changes..."
+          echo "💾 Attempting to commit changes..."
 
           # Check if there are changes to commit
           if git diff --staged --quiet; then
-            echo "⚠️  No staged changes detected"
+            echo "⚠️  No changes detected - files are identical to previous version"
             echo "changed=false" >> $GITHUB_OUTPUT
-
-            # Try to force add anyway
-            git add -f profile.svg README.md
-
-            if git diff --staged --quiet; then
-              echo "Still no changes - files might be identical"
-            else
-              git commit -m "🤖 Auto-update profile stats [$(date -u '+%H:%M UTC')]"
-              echo "changed=true" >> $GITHUB_OUTPUT
-            fi
           else
-            git commit -m "🤖 Auto-update profile stats [$(date -u '+%H:%M UTC')]"
+            echo "✅ Changes detected, committing..."
+            git commit -m "🤖 Auto-update profile stats (dark + light themes) [$(date -u '+%Y-%m-%d %H:%M UTC')]"
             echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ Changes committed"
+            echo "✅ Changes committed successfully"
           fi
 
       - name: Push changes
+        if: steps.commit.outputs.changed == 'true'
         run: |
-          echo "🚀 Pushing to repository..."
-          git push origin main || git push origin master
-          echo "✅ Push complete"
+          echo "🚀 Pushing changes to repository..."
+          
+          # Try main branch first, fallback to master
+          if git push origin main 2>/dev/null; then
+            echo "✅ Pushed to main branch"
+          elif git push origin master 2>/dev/null; then
+            echo "✅ Pushed to master branch"
+          else
+            echo "❌ Failed to push to repository"
+            exit 1
+          fi
 
       - name: Final verification
         if: always()
         run: |
           echo ""
-          echo "🎯 Final Status:"
-          echo "================"
-
+          echo "🎯 Final Status Report:"
+          echo "======================="
+          echo ""
+          
           if [ "${{ steps.commit.outputs.changed }}" == "true" ]; then
-            echo "✅ Changes committed and pushed"
+            echo "✅ Profile updated successfully!"
+            echo "   - Changes committed and pushed"
+            echo "   - Both dark and light themes generated"
           else
-            echo "ℹ️  No changes (files unchanged)"
+            echo "ℹ️  No updates needed"
+            echo "   - Files unchanged from previous run"
           fi
 
           echo ""
-          echo "Latest commit:"
+          echo "📊 Current files in repository:"
+          ls -lh profile*.svg README.md 2>/dev/null || echo "Some files may not exist yet"
+          
+          echo ""
+          echo "📝 Latest commit:"
           git log -1 --oneline
+          
+          echo ""
+          echo "⏰ Workflow completed at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
