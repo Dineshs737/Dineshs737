@@ -29,7 +29,7 @@
 
     <!-- Profile Info -->
     <g transform="translate(80, 200)">
-      <text x="0" y="0" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">
+      <text x="0" y="0" fill="#62686eff" font-family="'Segoe UI', sans-serif" font-size="18">
         <tspan x="0" dy="0">📍 Srilanka, Mannar</tspan>
         <tspan x="0" dy="40">💼 Undergraduate Student</tspan>
         <tspan x="0" dy="40">🏢 @Learning</tspan>
@@ -182,7 +182,7 @@
       <g transform="translate(0, 60)">
         <circle cx="15" cy="15" r="8" fill="none" stroke="#8957e5" stroke-width="2"/>
         <path d="M12 8 L12 22 M18 8 L18 22" stroke="#8957e5" stroke-width="2"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">191</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">192</text>
         <text x="110" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">pull requests merged</text>
       </g>
 
@@ -211,7 +211,7 @@
       <!-- Code Frequency -->
       <g transform="translate(0, 300)">
         <path d="M8 20 L12 15 L16 18 L20 12 L24 16" stroke="#58a6ff" stroke-width="2" fill="none"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">8.5k</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">7.8k</text>
         <text x="130" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">lines of code</text>
       </g>
     </g>
