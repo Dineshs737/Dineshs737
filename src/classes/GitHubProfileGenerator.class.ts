@@ -370,6 +370,301 @@ export default class GitHubProfileGenerator {
     };
   }
 
+  generateLightSVG(stats: GitHubStats): string {
+    return `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#ffffff"/>
+
+  <!-- Main Card -->
+  <rect x="50" y="50" width="1100" height="600" rx="20" fill="#f6f8fa" stroke="#d0d7de" stroke-width="3"/>
+
+  <!-- Vertical Divider -->
+  <line x1="600" y1="50" x2="600" y2="600" stroke="#d0d7de" stroke-width="3"/>
+
+  <!-- Left Section -->
+  <g transform="translate(50, 0)">
+    <!-- Profile Header -->
+    <text x="250" y="120"
+          fill="#0969da"
+          font-family="'Segoe UI', -apple-system, system-ui, sans-serif"
+          font-size="32"
+          font-weight="700"
+          text-anchor="middle">
+      ${stats.name}
+    </text>
+
+    <text x="250" y="155"
+          fill="#57606a"
+          font-family="'Segoe UI', -apple-system, system-ui, sans-serif"
+          font-size="20"
+          text-anchor="middle">
+      @${stats.username}
+    </text>
+
+    <!-- Profile Info -->
+    <g transform="translate(80, 200)">
+      <text x="0" y="0" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="18">
+        <tspan x="0" dy="0">📍 ${stats.location}</tspan>
+        <tspan x="0" dy="40">💼 ${stats.bio}</tspan>
+        <tspan x="0" dy="40">🏢 ${stats.company}</tspan>
+        <tspan x="0" dy="40">🔗 ${stats.blog}</tspan>
+      </text>
+    </g>
+
+    <!-- Stats Cards -->
+    <g transform="translate(60, 600)">
+      <g transform="translate(0, 0)">
+        <rect width="100" height="65" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="2"/>
+        <text x="50" y="30" fill="#0969da" font-family="'Segoe UI', sans-serif" font-size="24" font-weight="700" text-anchor="middle">${stats.repositories}</text>
+        <text x="50" y="50" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="12" text-anchor="middle">Repositories</text>
+      </g>
+
+      <g transform="translate(110, 0)">
+        <rect width="100" height="65" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="2"/>
+        <text x="50" y="30" fill="#0969da" font-family="'Segoe UI', sans-serif" font-size="24" font-weight="700" text-anchor="middle">${this.formatNumber(stats.followers)}</text>
+        <text x="50" y="50" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="12" text-anchor="middle">Followers</text>
+      </g>
+
+      <g transform="translate(220, 0)">
+        <rect width="100" height="65" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="2"/>
+        <text x="50" y="30" fill="#0969da" font-family="'Segoe UI', sans-serif" font-size="24" font-weight="700" text-anchor="middle">${this.formatNumber(stats.following)}</text>
+        <text x="50" y="50" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="12" text-anchor="middle">Following</text>
+      </g>
+    </g>
+
+    <!-- Programming Languages & Technologies -->
+    <text x="70" y="370"
+          fill="#24292f"
+          font-family="'Segoe UI', sans-serif"
+          font-size="20"
+          font-weight="600">
+      Tech Stack
+    </text>
+
+    <g transform="translate(70, 380)">
+      <!-- Row 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#61dafb" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+        </rect>
+        <circle cx="12" cy="16" r="2" fill="#61dafb"/>
+        <ellipse cx="12" cy="16" rx="6" ry="4" fill="none" stroke="#61dafb" stroke-width="0.8"/>
+        <ellipse cx="12" cy="16" rx="6" ry="4" fill="none" stroke="#61dafb" stroke-width="0.8" transform="rotate(60 12 16)"/>
+        <ellipse cx="12" cy="16" rx="6" ry="4" fill="none" stroke="#61dafb" stroke-width="0.8" transform="rotate(-60 12 16)"/>
+        <text x="55" y="20" fill="#61dafb" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">React</text>
+      </g>
+
+      <g transform="translate(105, 0)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#3178c6" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" begin="0.2s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="8" y="12" width="8" height="8" rx="1" fill="#3178c6"/>
+        <text x="12" y="19" fill="#fff" font-family="monospace" font-size="7" font-weight="bold" text-anchor="middle">TS</text>
+        <text x="60" y="20" fill="#3178c6" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">TypeScript</text>
+      </g>
+
+      <g transform="translate(210, 0)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#68a063" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" begin="0.4s" repeatCount="indefinite"/>
+        </rect>
+        <path d="M12 11 L16 13.5 L12 16 L8 13.5 Z M12 16 L12 21" stroke="#68a063" stroke-width="1" fill="none"/>
+        <text x="55" y="20" fill="#68a063" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">Node.js</text>
+      </g>
+
+      <g transform="translate(315, 0)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#ffd43b" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" begin="0.6s" repeatCount="indefinite"/>
+        </rect>
+        <circle cx="10" cy="14" r="2.5" fill="#3776ab"/>
+        <circle cx="14" cy="18" r="2.5" fill="#ffd43b"/>
+        <path d="M10 11.5 Q12 10 14 11.5 M10 20.5 Q12 22 14 20.5" stroke="#3776ab" stroke-width="1" fill="none"/>
+        <text x="60" y="20" fill="#3776ab" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">Python</text>
+      </g>
+
+      <!-- Row 2 -->
+      <g transform="translate(0, 42)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#f7df1e" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="9" y="13" width="6" height="6" rx="1" fill="#f7df1e"/>
+        <text x="12" y="18.5" fill="#000" font-family="monospace" font-size="6" font-weight="bold" text-anchor="middle">JS</text>
+        <text x="55" y="20" fill="#e3a500" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">JavaScript</text>
+      </g>
+
+      <g transform="translate(105, 42)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#2496ed" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" begin="1s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="8" y="14" width="3" height="3" fill="#2496ed"/>
+        <rect x="12" y="14" width="3" height="3" fill="#2496ed"/>
+        <rect x="12" y="10" width="3" height="3" fill="#2496ed"/>
+        <rect x="16" y="14" width="3" height="3" fill="#2496ed"/>
+        <path d="M7 17 L19 17 Q20 17 20 18" stroke="#2496ed" stroke-width="0.8" fill="none"/>
+        <text x="55" y="20" fill="#2496ed" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">Docker</text>
+      </g>
+
+      <g transform="translate(210, 42)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#ff9900" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+        </rect>
+        <path d="M8 18 L12 13 L16 18 M8 14 L12 19 L16 14" stroke="#ff9900" stroke-width="1" fill="none"/>
+        <text x="55" y="20" fill="#ff9900" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">AWS</text>
+      </g>
+
+      <g transform="translate(315, 42)">
+        <rect width="95" height="32" rx="8" fill="#ffffff" stroke="#4479a1" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" begin="1.4s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="9" y="13" width="6" height="6" rx="0.5" fill="#4479a1"/>
+        <path d="M10 15 L11 16 L14 13" stroke="#fff" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <text x="60" y="20" fill="#4479a1" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">MySQL</text>
+      </g>
+    </g>
+
+    <!-- Quote -->
+    <text x="250" y="530"
+          fill="#57606a"
+          font-family="'Segoe UI', sans-serif"
+          font-size="16"
+          text-anchor="middle"
+          font-style="italic">
+      ☕ Building cool stuff with code
+    </text>
+  </g>
+
+  <!-- Right Section - GitHub Activity -->
+  <g transform="translate(600, 0)">
+    <text x="300" y="120"
+          fill="#24292f"
+          font-family="'Segoe UI', -apple-system, system-ui, sans-serif"
+          font-size="32"
+          font-weight="700"
+          text-anchor="middle">
+      GitHub Activity
+    </text>
+
+    <!-- Activity Stats -->
+    <g transform="translate(80, 180)">
+      <!-- Commits -->
+      <g>
+        <circle cx="15" cy="15" r="6" fill="#1a7f37"/>
+        <text x="35" y="22" fill="#24292f" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">${this.formatNumber(stats.commits)}</text>
+        <text x="110" y="22" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="18">commits this year</text>
+      </g>
+
+      <!-- Pull Requests -->
+      <g transform="translate(0, 60)">
+        <circle cx="15" cy="15" r="8" fill="none" stroke="#8250df" stroke-width="2"/>
+        <path d="M12 8 L12 22 M18 8 L18 22" stroke="#8250df" stroke-width="2"/>
+        <text x="35" y="22" fill="#24292f" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">${stats.pullRequests}</text>
+        <text x="110" y="22" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="18">pull requests merged</text>
+      </g>
+
+      <!-- Issues -->
+      <g transform="translate(0, 120)">
+        <circle cx="15" cy="15" r="8" fill="none" stroke="#cf222e" stroke-width="2"/>
+        <circle cx="15" cy="15" r="2.5" fill="#cf222e"/>
+        <text x="35" y="22" fill="#24292f" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">${stats.issues}</text>
+        <text x="110" y="22" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="18">issues opened</text>
+      </g>
+
+      <!-- Stars -->
+      <g transform="translate(0, 180)">
+        <path d="M15 5 L17 12 L24 12 L18 17 L20 24 L15 19 L10 24 L12 17 L6 12 L13 12 Z" fill="#bf8700"/>
+        <text x="35" y="22" fill="#24292f" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">${this.formatNumber(stats.stars)}</text>
+        <text x="110" y="22" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="18">stars earned</text>
+      </g>
+
+      <!-- Contributions -->
+      <g transform="translate(0, 240)">
+        <rect x="8" y="8" width="14" height="14" rx="2" fill="#1a7f37"/>
+        <text x="35" y="22" fill="#24292f" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">${stats.streak} days</text>
+        <text x="140" y="22" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="18">current streak</text>
+      </g>
+
+      <!-- Code Frequency -->
+      <g transform="translate(0, 300)">
+        <path d="M8 20 L12 15 L16 18 L20 12 L24 16" stroke="#0969da" stroke-width="2" fill="none"/>
+        <text x="35" y="22" fill="#24292f" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">${this.formatNumber(stats.linesOfCode)}</text>
+        <text x="130" y="22" fill="#57606a" font-family="'Segoe UI', sans-serif" font-size="18">lines of code</text>
+      </g>
+    </g>
+
+  </g>
+
+  <!-- Avatar Circle - Centered Bottom -->
+  <g transform="translate(600, 485)">
+    <circle cx="0" cy="0" r="45"
+            fill="#ffffff"
+            stroke="#0969da"
+            stroke-width="3">
+      <animate attributeName="stroke-width" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.8;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="0" cy="0" r="40" fill="url(#avatarGradientLight)">
+      <animate attributeName="r" values="40;42;40" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <text x="0" y="10"
+          fill="#ffffff"
+          font-family="'Segoe UI', sans-serif"
+          font-size="32"
+          font-weight="700"
+          text-anchor="middle"
+          dominant-baseline="middle">
+      ${stats.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .substring(0, 2)}
+    </text>
+
+    <!-- Rotating glow ring -->
+    <circle cx="0" cy="0" r="50" fill="none" stroke="url(#glowGradientLight)" stroke-width="2" opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Decorative Corner Elements with animation -->
+  <circle cx="50" cy="50" r="6" fill="#0969da" opacity="0.8">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1150" cy="50" r="6" fill="#0969da" opacity="0.8">
+    <animate attributeName="r" values="6;8;6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="650" r="6" fill="#0969da" opacity="0.8">
+    <animate attributeName="r" values="6;8;6" dur="2s" begin="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1150" cy="650" r="6" fill="#0969da" opacity="0.8">
+    <animate attributeName="r" values="6;8;6" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Glow effect -->
+  <circle cx="900" cy="600" r="100" fill="url(#glowLight)">
+    <animate attributeName="r" values="100;120;100" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.15;0.25;0.15" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Gradients -->
+  <defs>
+    <radialGradient id="avatarGradientLight">
+      <stop offset="0%" stop-color="#0969da"/>
+      <stop offset="100%" stop-color="#0550ae"/>
+    </radialGradient>
+    <radialGradient id="glowLight">
+      <stop offset="0%" stop-color="#0969da" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0969da" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glowGradientLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0969da" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#0550ae" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0969da" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+</svg>`;
+  }
+
   generateSVG(stats: GitHubStats): string {
     return `<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
   <rect width="1200" height="800" fill="#0d1117"/>
@@ -679,14 +974,30 @@ export default class GitHubProfileGenerator {
       const stats = await this.collectStats();
       console.log("✅ Stats collected successfully");
 
-      const svg = this.generateSVG(stats);
-      console.log("✅ SVG generated in memory");
+      // Generate Dark Theme SVG
+      const darkSvg = this.generateSVG(stats);
+      console.log("✅ Dark theme SVG generated in memory");
 
-      // Save SVG file
-      console.log("💾 Writing profile.svg...");
-      fs.writeFileSync("profile.svg", svg);
-      console.log("✅ Profile SVG saved to: profile.svg");
-      console.log(`   Size: ${svg.length} bytes`);
+      // Generate Light Theme SVG
+      const lightSvg = this.generateLightSVG(stats);
+      console.log("✅ Light theme SVG generated in memory");
+
+      // Save Dark Theme SVG file
+      console.log("💾 Writing profile-dark.svg...");
+      fs.writeFileSync("profile-dark.svg", darkSvg);
+      console.log("✅ Dark theme SVG saved to: profile-dark.svg");
+      console.log(`   Size: ${darkSvg.length} bytes`);
+
+      // Save Light Theme SVG file
+      console.log("💾 Writing profile-light.svg...");
+      fs.writeFileSync("profile-light.svg", lightSvg);
+      console.log("✅ Light theme SVG saved to: profile-light.svg");
+      console.log(`   Size: ${lightSvg.length} bytes`);
+
+      // Save default (dark) as profile.svg for backward compatibility
+      console.log("💾 Writing profile.svg (default dark theme)...");
+      fs.writeFileSync("profile.svg", darkSvg);
+      console.log("✅ Default profile SVG saved");
 
       // Generate README.md
       console.log("💾 Writing README.md...");
@@ -696,16 +1007,13 @@ export default class GitHubProfileGenerator {
       console.log("✅ README.md saved to: README.md");
 
       // Verify files were written
-      if (fs.existsSync("profile.svg")) {
-        console.log("✅ Verified: profile.svg exists");
-      } else {
-        console.error("❌ Warning: profile.svg not found after write");
-      }
-
-      if (fs.existsSync("README.md")) {
-        console.log("✅ Verified: README.md exists");
-      } else {
-        console.error("❌ Warning: README.md not found after write");
+      const filesToCheck = ["profile.svg", "profile-dark.svg", "profile-light.svg", "README.md"];
+      for (const file of filesToCheck) {
+        if (fs.existsSync(file)) {
+          console.log(`✅ Verified: ${file} exists`);
+        } else {
+          console.error(`❌ Warning: ${file} not found after write`);
+        }
       }
 
       console.log("\n📊 Stats Summary:");
@@ -714,6 +1022,12 @@ export default class GitHubProfileGenerator {
       console.log(`   Stars: ${stats.stars}`);
       console.log(`   Commits: ${stats.commits}`);
       console.log(`   Streak: ${stats.streak} days`);
+      
+      console.log("\n🎨 Generated Files:");
+      console.log("   - profile-dark.svg (Dark theme)");
+      console.log("   - profile-light.svg (Light theme)");
+      console.log("   - profile.svg (Default - dark)");
+      console.log("   - README.md");
     } catch (error) {
       console.error("❌ Error generating profile:", error);
       if (error instanceof Error) {
@@ -727,7 +1041,10 @@ export default class GitHubProfileGenerator {
   generateREADME(): string {
     return `<div align="center">
 
-![Profile Banner](./profile.svg)
+<!-- Dark Theme (default) -->
+![Profile Banner](./profile-dark.svg#gh-dark-mode-only)
+<!-- Light Theme -->
+![Profile Banner](./profile-light.svg#gh-light-mode-only)
 
 </div>
 
@@ -753,9 +1070,13 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9#gh-dark-mode-only)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=default&hide_border=true&bg_color=ffffff&title_color=0969da&icon_color=0969da&text_color=24292f#gh-light-mode-only)
+
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9#gh-dark-mode-only)
+
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=default&hide_border=true&bg_color=ffffff&title_color=0969da&text_color=24292f#gh-light-mode-only)
 
 </div>
 
@@ -771,6 +1092,14 @@ const skills = {
   learning: ['Kubernetes', 'GraphQL', 'Rust']
 };
 \`\`\`
+
+## 🎨 Available Themes
+
+This profile README supports both dark and light themes:
+- **Dark Theme**: Perfect for night owls 🌙 (auto-shown in dark mode)
+- **Light Theme**: Crisp and clean ☀️ (auto-shown in light mode)
+
+The theme switches automatically based on your GitHub appearance settings!
 
 ## 📫 Connect With Me
 
