@@ -402,7 +402,7 @@ export default class GitHubProfileGenerator {
 
     <!-- Profile Info -->
     <g transform="translate(80, 200)">
-      <text x="0" y="0" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="18">
+      <text x="0" y="0" fill="#62686eff" font-family="'Segoe UI', sans-serif" font-size="18">
         <tspan x="0" dy="0">📍 ${stats.location}</tspan>
         <tspan x="0" dy="40">💼 ${stats.bio}</tspan>
         <tspan x="0" dy="40">🏢 ${stats.company}</tspan>
