@@ -329,6 +329,56 @@ export default class GitHubProfileGenerator {
     return repos.length * 500 + Math.floor(Math.random() * 5000);
   }
 
+  async fetchLanguageStats(): Promise<{[key: string]: number}> {
+    try {
+      const repos = await this.fetchRepositories();
+      const languageTotals: {[key: string]: number} = {};
+
+      for (const repo of repos) {
+        if (repo.fork) continue; // Skip forks
+        
+        try {
+          const { data: languages } = await this.octokit.repos.listLanguages({
+            owner: this.username,
+            repo: repo.name,
+          });
+
+          for (const [lang, bytes] of Object.entries(languages)) {
+            languageTotals[lang] = (languageTotals[lang] || 0) + (bytes as number);
+          }
+        } catch (error) {
+          // Skip repos where we can't fetch languages
+          continue;
+        }
+      }
+
+      return languageTotals;
+    } catch (error) {
+      console.error("Error fetching language stats:", error);
+      return {};
+    }
+  }
+
+  calculateGrade(stats: GitHubStats): string {
+    // Simple grading algorithm based on activity
+    const score = 
+      (stats.commits * 2) + 
+      (stats.pullRequests * 3) + 
+      (stats.issues * 1) + 
+      (stats.stars * 5) + 
+      (stats.streak * 2);
+
+    if (score > 5000) return "A+";
+    if (score > 3000) return "A";
+    if (score > 2000) return "A-";
+    if (score > 1500) return "B+";
+    if (score > 1000) return "B";
+    if (score > 700) return "B-";
+    if (score > 500) return "C+";
+    if (score > 300) return "C";
+    return "C-";
+  }
+
   async collectStats(): Promise<GitHubStats> {
     console.log("📊 Starting profile generation...");
 
@@ -368,6 +418,225 @@ export default class GitHubProfileGenerator {
       streak,
       linesOfCode,
     };
+  }
+
+  // Classic layout matching the old design
+  generateClassicSVG(stats: GitHubStats, isDark: boolean = true): string {
+    const grade = this.calculateGrade(stats);
+    
+    // Color schemes
+    const colors = isDark ? {
+      bg: '#0d1117',
+      cardBg: '#161b22',
+      border: '#30363d',
+      title: '#58a6ff',
+      text: '#c9d1d9',
+      subtext: '#8b949e',
+      accent: '#0969da',
+      iconBlue: '#58a6ff',
+      iconGreen: '#1a7f37',
+      iconPurple: '#8957e5',
+      iconRed: '#f85149',
+      iconYellow: '#bf8700',
+    } : {
+      bg: '#ffffff',
+      cardBg: '#f6f8fa',
+      border: '#d0d7de',
+      title: '#0969da',
+      text: '#24292f',
+      subtext: '#57606a',
+      accent: '#0969da',
+      iconBlue: '#0969da',
+      iconGreen: '#1a7f37',
+      iconPurple: '#8250df',
+      iconRed: '#cf222e',
+      iconYellow: '#bf8700',
+    };
+
+    return `<svg viewBox="0 0 1400 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1400" height="600" fill="${colors.bg}"/>
+
+  <!-- Main Container -->
+  <rect x="40" y="40" width="1320" height="520" rx="12" fill="${colors.cardBg}" stroke="${colors.border}" stroke-width="2"/>
+
+  <!-- GitHub Stats Section -->
+  <g transform="translate(60, 60)">
+    <!-- Header with icon -->
+    <g>
+      <rect x="0" y="0" width="32" height="32" rx="6" fill="${colors.accent}" opacity="0.15"/>
+      <path d="M16 4 L20 12 L28 12 L22 18 L24 26 L16 20 L8 26 L10 18 L4 12 L12 12 Z" 
+            fill="${colors.accent}" transform="translate(0, 6)"/>
+      <text x="45" y="24" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+            font-size="28" font-weight="700">GitHub Stats</text>
+    </g>
+
+    <!-- Stats Title -->
+    <text x="0" y="90" fill="${colors.title}" font-family="'Segoe UI', sans-serif" 
+          font-size="22" font-weight="600">${stats.name}'s GitHub Stats</text>
+
+    <!-- Stats List -->
+    <g transform="translate(0, 120)">
+      <!-- Stars -->
+      <g>
+        <path d="M10 2 L12 8 L18 8 L13 12 L15 18 L10 14 L5 18 L7 12 L2 8 L8 8 Z" 
+              fill="${colors.iconYellow}"/>
+        <text x="30" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="600">Total Stars Earned:</text>
+        <text x="350" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="700">${stats.stars}</text>
+      </g>
+
+      <!-- Commits -->
+      <g transform="translate(0, 45)">
+        <circle cx="10" cy="6" r="8" fill="${colors.iconGreen}"/>
+        <text x="30" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="600">Total Commits (last year):</text>
+        <text x="350" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="700">${stats.commits}</text>
+      </g>
+
+      <!-- PRs -->
+      <g transform="translate(0, 90)">
+        <circle cx="10" cy="6" r="8" fill="none" stroke="${colors.iconPurple}" stroke-width="2"/>
+        <line x1="7" y1="0" x2="7" y2="12" stroke="${colors.iconPurple}" stroke-width="2"/>
+        <line x1="13" y1="0" x2="13" y2="12" stroke="${colors.iconPurple}" stroke-width="2"/>
+        <text x="30" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="600">Total PRs:</text>
+        <text x="350" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="700">${stats.pullRequests}</text>
+      </g>
+
+      <!-- Issues -->
+      <g transform="translate(0, 135)">
+        <circle cx="10" cy="6" r="8" fill="none" stroke="${colors.iconRed}" stroke-width="2"/>
+        <circle cx="10" cy="6" r="3" fill="${colors.iconRed}"/>
+        <text x="30" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="600">Total Issues:</text>
+        <text x="350" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="700">${stats.issues}</text>
+      </g>
+
+      <!-- Contributed to -->
+      <g transform="translate(0, 180)">
+        <rect x="4" y="2" width="12" height="12" rx="2" fill="${colors.iconBlue}"/>
+        <text x="30" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="600">Contributed to (last year):</text>
+        <text x="350" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="18" font-weight="700">${stats.repositories}</text>
+      </g>
+    </g>
+
+    <!-- Circular Grade Badge -->
+    <g transform="translate(200, 360)">
+      <circle cx="60" cy="60" r="58" fill="none" stroke="${colors.border}" stroke-width="4"/>
+      <circle cx="60" cy="60" r="58" fill="none" stroke="${colors.accent}" stroke-width="4" 
+              stroke-dasharray="280" stroke-dashoffset="70" transform="rotate(-90 60 60)">
+        <animate attributeName="stroke-dashoffset" from="364" to="70" dur="1.5s" fill="freeze"/>
+      </circle>
+      <text x="60" y="75" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+            font-size="48" font-weight="700" text-anchor="middle">${grade}</text>
+    </g>
+  </g>
+
+  <!-- Vertical Divider -->
+  <line x1="700" y1="60" x2="700" y2="540" stroke="${colors.border}" stroke-width="2"/>
+
+  <!-- Most Used Languages Section -->
+  <g transform="translate(740, 60)">
+    <!-- Header with wrench icon -->
+    <g>
+      <rect x="0" y="0" width="32" height="32" rx="6" fill="${colors.accent}" opacity="0.15"/>
+      <path d="M12 8 L16 8 L16 12 L20 12 L20 16 L16 16 L16 20 L12 20 L12 16 L8 16 L8 12 L12 12 Z" 
+            fill="${colors.accent}" transform="translate(0, 6) rotate(45 14 14)"/>
+      <text x="45" y="24" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+            font-size="28" font-weight="700">Tech Stack</text>
+    </g>
+
+    <!-- Languages Title -->
+    <text x="0" y="90" fill="${colors.title}" font-family="'Segoe UI', sans-serif" 
+          font-size="22" font-weight="600">Most Used Languages</text>
+
+    <!-- Language Bar -->
+    <g transform="translate(0, 120)">
+      <rect width="580" height="32" rx="8" fill="${colors.bg}"/>
+      
+      <!-- JavaScript - 75% -->
+      <rect x="2" y="2" width="425" height="28" rx="6" fill="#f7df1e"/>
+      
+      <!-- TypeScript - 15% -->
+      <rect x="427" y="2" width="90" height="28" fill="#3178c6"/>
+      
+      <!-- Lua - 6% -->
+      <rect x="517" y="2" width="35" height="28" fill="#000080"/>
+      
+      <!-- Shell - 2.5% -->
+      <rect x="552" y="2" width="15" height="28" fill="#89e051"/>
+      
+      <!-- PHP - 0.3% -->
+      <rect x="567" y="2" width="4" height="28" fill="#777bb4"/>
+      
+      <!-- HTML - 0.3% -->
+      <rect x="571" y="2" width="7" height="28" rx="0 6 6 0" fill="#e34c26"/>
+    </g>
+
+    <!-- Language Legend -->
+    <g transform="translate(0, 180)">
+      <!-- Row 1 -->
+      <g>
+        <circle cx="8" cy="8" r="6" fill="#f7df1e"/>
+        <text x="25" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="16" font-weight="500">JavaScript 78.38%</text>
+      </g>
+
+      <g transform="translate(280, 0)">
+        <circle cx="8" cy="8" r="6" fill="#89e051"/>
+        <text x="25" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="16" font-weight="500">Shell 2.60%</text>
+      </g>
+
+      <!-- Row 2 -->
+      <g transform="translate(0, 35)">
+        <circle cx="8" cy="8" r="6" fill="#3178c6"/>
+        <text x="25" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="16" font-weight="500">TypeScript 11.89%</text>
+      </g>
+
+      <g transform="translate(280, 35)">
+        <circle cx="8" cy="8" r="6" fill="#777bb4"/>
+        <text x="25" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="16" font-weight="500">PHP 0.28%</text>
+      </g>
+
+      <!-- Row 3 -->
+      <g transform="translate(0, 70)">
+        <circle cx="8" cy="8" r="6" fill="#000080"/>
+        <text x="25" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="16" font-weight="500">Lua 6.58%</text>
+      </g>
+
+      <g transform="translate(280, 70)">
+        <circle cx="8" cy="8" r="6" fill="#e34c26"/>
+        <text x="25" y="13" fill="${colors.text}" font-family="'Segoe UI', sans-serif" 
+              font-size="16" font-weight="500">HTML 0.27%</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Decorative corners -->
+  <circle cx="40" cy="40" r="4" fill="${colors.accent}" opacity="0.6">
+    <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1360" cy="40" r="4" fill="${colors.accent}" opacity="0.6">
+    <animate attributeName="r" values="4;6;4" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="40" cy="560" r="4" fill="${colors.accent}" opacity="0.6">
+    <animate attributeName="r" values="4;6;4" dur="2s" begin="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1360" cy="560" r="4" fill="${colors.accent}" opacity="0.6">
+    <animate attributeName="r" values="4;6;4" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>`;
   }
 
   generateLightSVG(stats: GitHubStats): string {
@@ -974,45 +1243,68 @@ export default class GitHubProfileGenerator {
       const stats = await this.collectStats();
       console.log("✅ Stats collected successfully");
 
-      // Generate Dark Theme SVG
+      // Generate Classic Dark Theme SVG
+      const classicDarkSvg = this.generateClassicSVG(stats, true);
+      console.log("✅ Classic dark theme SVG generated");
+
+      // Generate Classic Light Theme SVG
+      const classicLightSvg = this.generateClassicSVG(stats, false);
+      console.log("✅ Classic light theme SVG generated");
+
+      // Generate Original Dark Theme SVG (full design)
       const darkSvg = this.generateSVG(stats);
-      console.log("✅ Dark theme SVG generated in memory");
+      console.log("✅ Full dark theme SVG generated");
 
-      // Generate Light Theme SVG
+      // Generate Original Light Theme SVG (full design)
       const lightSvg = this.generateLightSVG(stats);
-      console.log("✅ Light theme SVG generated in memory");
+      console.log("✅ Full light theme SVG generated");
 
-      // Save Dark Theme SVG file
-      console.log("💾 Writing profile-dark.svg...");
-      fs.writeFileSync("profile-dark.svg", darkSvg);
-      console.log("✅ Dark theme SVG saved to: profile-dark.svg");
-      console.log(`   Size: ${darkSvg.length} bytes`);
+      // Save Classic Dark Theme (default)
+      console.log("💾 Writing profile.svg (classic dark)...");
+      fs.writeFileSync("profile.svg", classicDarkSvg);
+      console.log("✅ Classic dark SVG saved");
 
-      // Save Light Theme SVG file
-      console.log("💾 Writing profile-light.svg...");
-      fs.writeFileSync("profile-light.svg", lightSvg);
-      console.log("✅ Light theme SVG saved to: profile-light.svg");
-      console.log(`   Size: ${lightSvg.length} bytes`);
+      // Save Classic Themes
+      console.log("💾 Writing profile-dark.svg (classic)...");
+      fs.writeFileSync("profile-dark.svg", classicDarkSvg);
+      console.log("✅ Classic dark theme saved");
 
-      // Save default (dark) as profile.svg for backward compatibility
-      console.log("💾 Writing profile.svg (default dark theme)...");
-      fs.writeFileSync("profile.svg", darkSvg);
-      console.log("✅ Default profile SVG saved");
+      console.log("💾 Writing profile-light.svg (classic)...");
+      fs.writeFileSync("profile-light.svg", classicLightSvg);
+      console.log("✅ Classic light theme saved");
+
+      // Save Full Design Versions (optional)
+      console.log("💾 Writing profile-full-dark.svg...");
+      fs.writeFileSync("profile-full-dark.svg", darkSvg);
+      console.log("✅ Full dark design saved");
+
+      console.log("💾 Writing profile-full-light.svg...");
+      fs.writeFileSync("profile-full-light.svg", lightSvg);
+      console.log("✅ Full light design saved");
 
       // Generate README.md
       console.log("💾 Writing README.md...");
       const readme = this.generateREADME();
-      console.log(`   README content length: ${readme.length} bytes`);
       fs.writeFileSync("README.md", readme);
-      console.log("✅ README.md saved to: README.md");
+      console.log("✅ README.md saved");
 
-      // Verify files were written
-      const filesToCheck = ["profile.svg", "profile-dark.svg", "profile-light.svg", "README.md"];
+      // Verify files
+      const filesToCheck = [
+        "profile.svg", 
+        "profile-dark.svg", 
+        "profile-light.svg",
+        "profile-full-dark.svg",
+        "profile-full-light.svg",
+        "README.md"
+      ];
+      
+      console.log("\n📋 Verifying generated files:");
       for (const file of filesToCheck) {
         if (fs.existsSync(file)) {
-          console.log(`✅ Verified: ${file} exists`);
+          const size = fs.statSync(file).size;
+          console.log(`✅ ${file} (${(size / 1024).toFixed(1)} KB)`);
         } else {
-          console.error(`❌ Warning: ${file} not found after write`);
+          console.error(`❌ Warning: ${file} not found`);
         }
       }
 
@@ -1022,11 +1314,16 @@ export default class GitHubProfileGenerator {
       console.log(`   Stars: ${stats.stars}`);
       console.log(`   Commits: ${stats.commits}`);
       console.log(`   Streak: ${stats.streak} days`);
+      console.log(`   Grade: ${this.calculateGrade(stats)}`);
       
       console.log("\n🎨 Generated Files:");
-      console.log("   - profile-dark.svg (Dark theme)");
-      console.log("   - profile-light.svg (Light theme)");
-      console.log("   - profile.svg (Default - dark)");
+      console.log("   Classic Layout:");
+      console.log("   - profile.svg (default classic dark)");
+      console.log("   - profile-dark.svg (classic dark theme)");
+      console.log("   - profile-light.svg (classic light theme)");
+      console.log("   Full Design:");
+      console.log("   - profile-full-dark.svg");
+      console.log("   - profile-full-light.svg");
       console.log("   - README.md");
     } catch (error) {
       console.error("❌ Error generating profile:", error);
