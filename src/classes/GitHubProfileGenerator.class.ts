@@ -401,6 +401,7 @@ export default class GitHubProfileGenerator {
     </text>
 
 <!-- Profile Info -->
+<!-- Profile Info -->
 <g transform="translate(80, 200)">
   <text x="0" y="0" fill="#62686eff" font-family="'Segoe UI', sans-serif" font-size="18">
     <tspan x="0" dy="0">📍 ${stats.location}</tspan>
@@ -410,8 +411,11 @@ export default class GitHubProfileGenerator {
   </text>
 </g>
 
+<!-- Stats Cards -->
+<g transform="translate(60, 330)">
+
     <!-- Stats Cards -->
-    <g transform="translate(60, 600)">
+   <!-- <g transform="translate(60, 600)"> -->
       <g transform="translate(0, 0)">
         <rect width="100" height="65" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
         <text x="50" y="30" fill="#58a6ff" font-family="'Segoe UI', sans-serif" font-size="24" font-weight="700" text-anchor="middle">${stats.repositories}</text>
