@@ -1,6 +1,6 @@
 <div align="center">
 
-![Profile Banner](./profile.svg)
+![Profile Banner](./profile.svg) 
 
 </div>
 
