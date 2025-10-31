@@ -400,15 +400,15 @@ export default class GitHubProfileGenerator {
       @${stats.username}
     </text>
 
-    <!-- Profile Info -->
-    <g transform="translate(80, 200)">
-      <text x="0" y="0" fill="#62686eff" font-family="'Segoe UI', sans-serif" font-size="18">
-        <tspan x="0" dy="0">📍 ${stats.location}</tspan>
-        <tspan x="0" dy="40">💼 ${stats.bio}</tspan>
-        <tspan x="0" dy="40">🏢 ${stats.company}</tspan>
-        <tspan x="0" dy="40">🔗 ${stats.blog}</tspan>
-      </text>
-    </g>
+<!-- Profile Info -->
+<g transform="translate(80, 200)">
+  <text x="0" y="0" fill="#62686eff" font-family="'Segoe UI', sans-serif" font-size="18">
+    <tspan x="0" dy="0">📍 ${stats.location}</tspan>
+    <tspan x="0" dy="35">💼 ${stats.bio}</tspan>
+    <tspan x="0" dy="35">🏢 ${stats.company}</tspan>
+    <tspan x="0" dy="35">🔗 ${stats.blog}</tspan>
+  </text>
+</g>
 
     <!-- Stats Cards -->
     <g transform="translate(60, 600)">
