@@ -238,7 +238,7 @@
       <!-- Code Frequency -->
       <g transform="translate(0, 300)">
         <path d="M8 20 L12 15 L16 18 L20 12 L24 16" stroke="#58a6ff" stroke-width="2" fill="none"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">12.7k</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">9.0k</text>
         <text x="140" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="20">lines of code</text>
       </g>
     </g>
