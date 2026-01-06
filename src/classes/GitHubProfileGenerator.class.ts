@@ -693,6 +693,10 @@ export default class GitHubProfileGenerator {
     }
   }
 
+// ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9)
+
+// ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9)
+
   generateREADME(): string {
     return `<div align="center">
 
@@ -722,9 +726,8 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Dineshs737&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9)
+[![My Awesome Stats](https://awesome-github-stats.azurewebsites.net/user-stats/Dineshs737?theme=dark)](https://github.com/brunobritodev/awesome-github-stats)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dineshs737&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9)
 
 </div>
 
