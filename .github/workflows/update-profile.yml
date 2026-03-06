@@ -29,11 +29,11 @@ jobs:
 
       - name: Check initial state
         run: |
-          echo "📁 Files before generation:"
+          echo "Files before generation:"
           ls -la
           echo ""
           echo "Checking existing files:"
-          for file in README.md profile.svg profile-dark.svg profile-light.svg; do
+          for file in README.md profile.svg; do
             if [ -f "$file" ]; then
               echo "✅ $file exists ($(wc -c < $file) bytes)"
             else
@@ -135,7 +135,7 @@ jobs:
       - name: Add all generated files
         run: |
           echo "➕ Adding all generated files to git..."
-          git add -f profile.svg profile-dark.svg profile-light.svg README.md
+          git add -f profile.svg  README.md
           echo ""
           echo "📋 Staged files:"
           git diff --staged --name-only
@@ -150,10 +150,10 @@ jobs:
             echo "⚠️  No changes detected - files are identical to previous version"
             echo "changed=false" >> $GITHUB_OUTPUT
           else
-            echo "✅ Changes detected, committing..."
-            git commit -m "🤖 Auto-update profile stats (dark + light themes) [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            echo "Changes detected, committing..."
+            git commit -m "update [$(date -u '+%Y-%m-%d %H:%M UTC')]"
             echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ Changes committed successfully"
+            echo "Changes committed successfully"
           fi
 
       - name: Push changes
