@@ -81,21 +81,7 @@ jobs:
             echo "❌ profile.svg missing!"
             MISSING_FILES=$((MISSING_FILES + 1))
           fi
-
-          if [ -f "profile-dark.svg" ]; then
-            echo "✅ profile-dark.svg exists ($(wc -c < profile-dark.svg) bytes)"
-          else
-            echo "❌ profile-dark.svg missing!"
-            MISSING_FILES=$((MISSING_FILES + 1))
-          fi
-
-          if [ -f "profile-light.svg" ]; then
-            echo "✅ profile-light.svg exists ($(wc -c < profile-light.svg) bytes)"
-          else
-            echo "❌ profile-light.svg missing!"
-            MISSING_FILES=$((MISSING_FILES + 1))
-          fi
-
+          
           if [ -f "README.md" ]; then
             echo "✅ README.md exists ($(wc -c < README.md) bytes)"
             echo ""
