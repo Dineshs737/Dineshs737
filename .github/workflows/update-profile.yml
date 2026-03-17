@@ -162,17 +162,10 @@ jobs:
       - name: Push changes
         if: steps.commit.outputs.changed == 'true'
         run: |
-          echo "🚀 Pushing changes to repository..."
-
-          # Try main branch first, fallback to master
-          if git push origin main 2>/dev/null; then
-            echo "✅ Pushed to main branch"
-          elif git push origin master 2>/dev/null; then
-            echo "✅ Pushed to master branch"
-          else
-            echo "❌ Failed to push to repository"
-            exit 1
-          fi
+          BRANCH="${GITHUB_REF##refs/heads/}"
+          echo "🚀 Pushing changes to branch: $BRANCH"
+          git push origin "$BRANCH"
+          echo "✅ Pushed to $BRANCH"
 
       - name: Final verification
         if: always()
