@@ -31,16 +31,18 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 </div>
 
+
+
 ## Tech Stack
 
 ```typescript
 const skills = {
-  languages: ['JavaScript', 'TypeScript', 'Python','Java'],
-  frontend: ['React', 'HTML/CSS', 'Tailwind'],
-  backend: ['Node.js', 'Express', 'SpringBoot'],
-  databases: ['MySQL', 'PostgreSQL', 'MongoDB'],
-  tools: ['Git', 'Docker', 'Neovim', 'VS Code'],
-  learning: ['Kubernetes', 'GraphQL', 'Rust']
+  languages: ["JavaScript","TypeScript","Python","Java"],
+  frontend: ["React","HTML/CSS","Tailwind"],
+  backend: ["Node.js","Express","SpringBoot"],
+  databases: ["MySQL","PostgreSQL","MongoDB"],
+  tools: ["Git","Docker","Neovim","VS Code"],
+  learning: ["Kubernetes","GraphQL","Rust"]
 };
 ```
 
@@ -60,6 +62,6 @@ const skills = {
 
 **Last Updated:** March 17, 2026
 
-*This README is automatically updated using GitHub Actions* ⚡
+*This README is automatically updated using GitHub Actions*
 
 </div>
