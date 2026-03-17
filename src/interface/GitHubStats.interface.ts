@@ -1,3 +1,12 @@
+import { LanguageStat } from "./LanguageStat.interface";
+import { ActivityEvent } from "./ActivityEvent.interface";
+import { PinnedRepo } from "./PinnedRepo.interface";
+
+export interface ContributionDay {
+  date: string;
+  count: number;
+}
+
 export interface GitHubStats {
   name: string;
   username: string;
@@ -14,4 +23,8 @@ export interface GitHubStats {
   stars: number;
   streak: number;
   linesOfCode: number;
+  languages: LanguageStat[];
+  contributionCalendar: ContributionDay[];
+  recentActivity: ActivityEvent[];
+  pinnedRepos: PinnedRepo[];
 }
