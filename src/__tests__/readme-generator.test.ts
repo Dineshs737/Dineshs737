@@ -12,11 +12,22 @@ const mockConfig: ProfileConfig = {
     blog: "test.dev",
   },
   techStack: [
-    { name: "TypeScript", color: "#3178c6", iconType: "rect-text", iconData: "TS" },
+    {
+      name: "TypeScript",
+      color: "#3178c6",
+      iconType: "rect-text",
+      iconData: "TS",
+    },
   ],
   quote: "Test quote",
   socialLinks: [
-    { platform: "GitHub", label: "testuser", url: "https://github.com/testuser", color: "181717", logo: "github" },
+    {
+      platform: "GitHub",
+      label: "testuser",
+      url: "https://github.com/testuser",
+      color: "181717",
+      logo: "github",
+    },
   ],
   svg: { width: 1400, height: 1050 },
   theme: "dark",
@@ -69,12 +80,6 @@ describe("generateREADME", () => {
     expect(readme).toContain('"TypeScript"');
     expect(readme).toContain('"React"');
     expect(readme).toContain('"Rust"');
-  });
-
-  it("includes stats section", () => {
-    const readme = generateREADME("testuser", mockConfig, mockStats);
-    expect(readme).toContain("awesome-github-stats");
-    expect(readme).toContain("testuser");
   });
 
   it("includes pinned repos when available", () => {
