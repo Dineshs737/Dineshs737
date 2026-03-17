@@ -42,9 +42,9 @@ export default class GitHubProfileGenerator {
 
   async fetchCommitCountFromRepos(): Promise<number> {
     try {
-      console.log("🔍 Fetching repositories...");
+      console.log("Fetching repositories...");
       const repos = await this.fetchRepositories();
-      console.log(`📦 Found ${repos.length} repositories`);
+      console.log(`Found ${repos.length} repositories`);
 
       let totalCommits = 0;
       let processedRepos = 0;
@@ -53,7 +53,7 @@ export default class GitHubProfileGenerator {
         try {
           // Skip forks unless you want to count those too
           if (repo.fork) {
-            console.log(`⏭️  Skipping fork: ${repo.name}`);
+            console.log(`⏭Skipping fork: ${repo.name}`);
             continue;
           }
 
@@ -91,7 +91,7 @@ export default class GitHubProfileGenerator {
           processedRepos++;
 
           console.log(
-            `✅ ${repo.name}: ${repoCommitCount} commits (Total: ${totalCommits})`
+            `${repo.name}: ${repoCommitCount} commits (Total: ${totalCommits})`
           );
 
           // Add a small delay to avoid rate limiting
@@ -99,10 +99,10 @@ export default class GitHubProfileGenerator {
         } catch (error: any) {
           // If repo is empty or inaccessible, continue
           if (error.status === 409 || error.status === 404) {
-            console.log(`⚠️  Skipping ${repo.name}: empty or inaccessible`);
+            console.log(`Skipping ${repo.name}: empty or inaccessible`);
             continue;
           }
-          console.error(`❌ Error processing ${repo.name}:`, error.message);
+          console.error(`Error processing ${repo.name}:`, error.message);
         }
       }
 
@@ -111,7 +111,7 @@ export default class GitHubProfileGenerator {
       );
       return totalCommits;
     } catch (error) {
-      console.error("❌ Error fetching commits:", error);
+      console.error("Error fetching commits:", error);
       return 1247; // Fallback value
     }
   }
@@ -144,7 +144,7 @@ export default class GitHubProfileGenerator {
       console.log(`🎯 GraphQL found ${totalCommits} commits this year`);
       return totalCommits;
     } catch (error) {
-      console.error("❌ GraphQL error:", error);
+      console.error("GraphQL error:", error);
       // Fall back to repo-based counting
       return this.fetchCommitCountFromRepos();
     }
@@ -257,7 +257,7 @@ export default class GitHubProfileGenerator {
         }
       }
 
-      console.log(`🔥 Current streak: ${streak} days`);
+      console.log(`Current streak: ${streak} days`);
       return streak;
     } catch (error) {
       console.error("Error calculating streak with GraphQL:", error);
@@ -272,12 +272,12 @@ export default class GitHubProfileGenerator {
   }
 
   async collectStats(): Promise<GitHubStats> {
-    console.log("📊 Starting profile generation...");
+    console.log("Starting profile generation...");
 
     const userData = await this.fetchUserData();
     const repos = await this.fetchRepositories();
 
-    console.log("\n🔄 Fetching commits (this may take a while)...");
+    console.log("\nFetching commits (this may take a while)...");
     // Use GraphQL first (faster, but only shows this year)
     // Or use repo-based counting for all-time commits
     const commits = await this.fetchCommitCountGraphQL();
@@ -643,48 +643,48 @@ export default class GitHubProfileGenerator {
 
   async generate(): Promise<void> {
     try {
-      console.log("📊 Starting profile generation...");
+      console.log("Starting profile generation...");
 
       const stats = await this.collectStats();
-      console.log("✅ Stats collected successfully");
+      console.log("Stats collected successfully");
 
       const svg = this.generateSVG(stats);
-      console.log("✅ SVG generated in memory");
+      console.log("SVG generated in memory");
 
       // Save SVG file
-      console.log("💾 Writing profile.svg...");
+      console.log("Writing profile.svg...");
       fs.writeFileSync("profile.svg", svg);
-      console.log("✅ Profile SVG saved to: profile.svg");
+      console.log("Profile SVG saved to: profile.svg");
       console.log(`   Size: ${svg.length} bytes`);
 
       // Generate README.md
-      console.log("💾 Writing README.md...");
+      console.log("Writing README.md...");
       const readme = this.generateREADME();
       console.log(`   README content length: ${readme.length} bytes`);
       fs.writeFileSync("README.md", readme);
-      console.log("✅ README.md saved to: README.md");
+      console.log("README.md saved to: README.md");
 
       // Verify files were written
       if (fs.existsSync("profile.svg")) {
-        console.log("✅ Verified: profile.svg exists");
+        console.log("Verified: profile.svg exists");
       } else {
-        console.error("❌ Warning: profile.svg not found after write");
+        console.error("Warning: profile.svg not found after write");
       }
 
       if (fs.existsSync("README.md")) {
-        console.log("✅ Verified: README.md exists");
+        console.log("Verified: README.md exists");
       } else {
-        console.error("❌ Warning: README.md not found after write");
+        console.error("Warning: README.md not found after write");
       }
 
-      console.log("\n📊 Stats Summary:");
+      console.log("\nStats Summary:");
       console.log(`   Repositories: ${stats.repositories}`);
       console.log(`   Followers: ${stats.followers}`);
       console.log(`   Stars: ${stats.stars}`);
       console.log(`   Commits: ${stats.commits}`);
       console.log(`   Streak: ${stats.streak} days`);
     } catch (error) {
-      console.error("❌ Error generating profile:", error);
+      console.error("Error generating profile:", error);
       if (error instanceof Error) {
         console.error("   Error message:", error.message);
         console.error("   Error stack:", error.stack);
@@ -708,21 +708,21 @@ export default class GitHubProfileGenerator {
 
 <div align="center">
 
-### 👋 Welcome to my GitHub Profile!
+### Welcome to my GitHub Profile!
 
 I'm a passionate developer who loves building amazing things with code. Currently exploring the world of **web development** and **cloud technologies**.
 
 </div>
 
-## 🚀 About Me
+## About Me
 
-- 🔭 I'm currently working on exciting web projects
-- 🌱 Learning new technologies every day
-- 👯 Looking to collaborate on open source projects
-- 💬 Ask me about React, TypeScript, Node.js
-- ⚡ Fun fact: I automate everything!
+-  I'm currently working on exciting web projects
+-  Learning new technologies every day
+-  Looking to collaborate on open source projects
+-  Ask me about React, TypeScript, Node.js
+-  Fun fact: I automate everything!
 
-## 📈 GitHub Stats
+## GitHub Stats
 
 <div align="center">
 
@@ -731,7 +731,7 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 </div>
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 \`\`\`typescript
 const skills = {
@@ -744,7 +744,7 @@ const skills = {
 };
 \`\`\`
 
-## 📫 Connect With Me
+## Connect With Me
 
 <div align="center">
 
