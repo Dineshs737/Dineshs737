@@ -22,7 +22,7 @@ ${cards}
 }
 
 export function generateREADME(
-  username: string,
+  _username: string,
   config: ProfileConfig,
   stats: GitHubStats,
 ): string {
@@ -71,13 +71,6 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 -  Fun fact: I automate everything!
 
 ## GitHub Stats
-
-<div align="center">
-
-[![My Awesome Stats](https://awesome-github-stats.azurewebsites.net/user-stats/${username}?theme=dark)](https://github.com/brunobritodev/awesome-github-stats)
-
-
-</div>
 
 ${pinnedSection}
 
