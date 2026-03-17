@@ -101,6 +101,28 @@ jobs:
             exit 1
           fi
 
+      - name: Run tests
+        run: |
+          echo "🧪 Running test suite..."
+          npm test
+          echo "✅ All tests passed!"
+
+      - name: Validate config
+        run: |
+          echo "🔍 Validating profile config with Zod schema..."
+          node -e "
+            const { profileConfigSchema } = require('./dist/src/validation/config.schema');
+            const config = require('./dist/profile.config').default;
+            const result = profileConfigSchema.safeParse(config);
+            if (result.success) {
+              console.log('✅ Config validation passed!');
+            } else {
+              console.error('❌ Config validation failed:');
+              console.error(JSON.stringify(result.error.issues, null, 2));
+              process.exit(1);
+            }
+          "
+
       - name: Test GitHub token
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -183,6 +205,8 @@ jobs:
           echo "✅ Node.js setup: Success"
           echo "✅ Dependencies: Installed"
           echo "✅ TypeScript build: Success"
+          echo "✅ Tests: Passed"
+          echo "✅ Config validation: Passed"
           echo "✅ Profile generation: Success"
           if [ "${{ steps.commit.outputs.changed }}" == "true" ]; then
             echo "✅ Changes committed: Yes"

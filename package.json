@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "generate": "node -r tsconfig-paths/register dist/index.js",
-    "dev": "ts-node -r tsconfig-paths/register src/index.ts"
+    "dev": "ts-node -r tsconfig-paths/register src/index.ts",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",

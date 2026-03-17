@@ -58,6 +58,22 @@ jobs:
           echo "📦 Build artifacts:"
           ls -la dist/
 
+      - name: Run tests
+        run: |
+          echo "🧪 Running tests..."
+          npm test
+          echo "✅ All tests passed!"
+
+      - name: Validate config
+        run: |
+          echo "🔍 Validating profile config..."
+          node -e "
+            const { profileConfigSchema } = require('./dist/src/validation/config.schema');
+            const config = require('./dist/profile.config').default;
+            profileConfigSchema.parse(config);
+            console.log('✅ Config validation passed!');
+          "
+
       - name: Generate profile
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
