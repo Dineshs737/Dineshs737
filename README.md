@@ -24,13 +24,6 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 ## GitHub Stats
 
-<div align="center">
-
-[![My Awesome Stats](https://awesome-github-stats.azurewebsites.net/user-stats/Dineshs737?theme=dark)](https://github.com/brunobritodev/awesome-github-stats)
-
-
-</div>
-
 
 
 ## Tech Stack
