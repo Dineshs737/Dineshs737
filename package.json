@@ -2,10 +2,10 @@
   "name": "test-auto-profile",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
-    "build": "tsc",
-    "generate": "node -r tsconfig-paths/register dist/index.js",
+    "build": "rm -rf dist && tsc",
+    "generate": "node -r tsconfig-paths/register dist/src/index.js",
     "dev": "ts-node -r tsconfig-paths/register src/index.ts",
     "test": "vitest run"
   },
