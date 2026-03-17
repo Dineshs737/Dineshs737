@@ -109,7 +109,7 @@ const config: ProfileConfig = {
   ],
   svg: {
     width: 1400,
-    height: 1050,
+    height: 900,
   },
   theme: "dark",
   skills: {
