@@ -8,21 +8,21 @@
 
 <div align="center">
 
-### 👋 Welcome to my GitHub Profile!
+### Welcome to my GitHub Profile!
 
 I'm a passionate developer who loves building amazing things with code. Currently exploring the world of **web development** and **cloud technologies**.
 
 </div>
 
-## 🚀 About Me
+## About Me
 
-- 🔭 I'm currently working on exciting web projects
-- 🌱 Learning new technologies every day
-- 👯 Looking to collaborate on open source projects
-- 💬 Ask me about React, TypeScript, Node.js
-- ⚡ Fun fact: I automate everything!
+-  I'm currently working on exciting web projects
+-  Learning new technologies every day
+-  Looking to collaborate on open source projects
+-  Ask me about React, TypeScript, Node.js
+-  Fun fact: I automate everything!
 
-## 📈 GitHub Stats
+## GitHub Stats
 
 <div align="center">
 
@@ -31,7 +31,7 @@ I'm a passionate developer who loves building amazing things with code. Currentl
 
 </div>
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ```typescript
 const skills = {
@@ -44,7 +44,7 @@ const skills = {
 };
 ```
 
-## 📫 Connect With Me
+## Connect With Me
 
 <div align="center">
 
