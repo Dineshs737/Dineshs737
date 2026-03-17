@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   update-profile:
@@ -71,17 +72,17 @@ jobs:
           echo ""
           echo "📋 Verifying all generated files:"
           echo "=================================="
-          
+
           # Check all three SVG files
           MISSING_FILES=0
-          
+
           if [ -f "profile.svg" ]; then
             echo "✅ profile.svg exists ($(wc -c < profile.svg) bytes)"
           else
             echo "❌ profile.svg missing!"
             MISSING_FILES=$((MISSING_FILES + 1))
           fi
-          
+
           if [ -f "README.md" ]; then
             echo "✅ README.md exists ($(wc -c < README.md) bytes)"
             echo ""
@@ -97,7 +98,7 @@ jobs:
             echo "❌ $MISSING_FILES file(s) missing! Exiting..."
             exit 1
           fi
-          
+
           echo ""
           echo "✅ All files generated successfully!"
 
@@ -146,7 +147,7 @@ jobs:
         if: steps.commit.outputs.changed == 'true'
         run: |
           echo "🚀 Pushing changes to repository..."
-          
+
           # Try main branch first, fallback to master
           if git push origin main 2>/dev/null; then
             echo "✅ Pushed to main branch"
@@ -164,7 +165,7 @@ jobs:
           echo "🎯 Final Status Report:"
           echo "======================="
           echo ""
-          
+
           if [ "${{ steps.commit.outputs.changed }}" == "true" ]; then
             echo "✅ Profile updated successfully!"
             echo "   - Changes committed and pushed"
@@ -177,10 +178,11 @@ jobs:
           echo ""
           echo "📊 Current files in repository:"
           ls -lh profile*.svg README.md 2>/dev/null || echo "Some files may not exist yet"
-          
+
           echo ""
           echo "📝 Latest commit:"
           git log -1 --oneline
-          
+
           echo ""
           echo "⏰ Workflow completed at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
