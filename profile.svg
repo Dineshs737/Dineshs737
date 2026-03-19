@@ -53,7 +53,7 @@
 
       <g transform="translate(220, 0)">
         <rect width="100" height="65" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
-        <text x="50" y="30" fill="#58a6ff" font-family="'Segoe UI', sans-serif" font-size="24" font-weight="700" text-anchor="middle">8</text>
+        <text x="50" y="30" fill="#58a6ff" font-family="'Segoe UI', sans-serif" font-size="24" font-weight="700" text-anchor="middle">9</text>
         <text x="50" y="50" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="12" text-anchor="middle">Following</text>
       </g>
     </g>
@@ -224,7 +224,7 @@
       <!-- Stars -->
       <g transform="translate(0, 180)">
         <path d="M15 5 L17 12 L24 12 L18 17 L20 24 L15 19 L10 24 L12 17 L6 12 L13 12 Z" fill="#ffd700"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">5</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">7</text>
         <text x="140" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="20">stars earned</text>
       </g>
 
@@ -238,7 +238,7 @@
       <!-- Code Frequency -->
       <g transform="translate(0, 300)">
         <path d="M8 20 L12 15 L16 18 L20 12 L24 16" stroke="#58a6ff" stroke-width="2" fill="none"/>
-        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">13.9k</text>
+        <text x="35" y="22" fill="#c9d1d9" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700">11.5k</text>
         <text x="140" y="22" fill="#8b949e" font-family="'Segoe UI', sans-serif" font-size="20">lines of code</text>
       </g>
     </g>
